@@ -41,16 +41,33 @@ class App extends Component {
     let sourceName = event.target.value
     let sources = this.state.sources
     let source = sources.find( (s) => s.name === sourceName)
-    source.active = false
-    console.log(source);
-    let filteredArticles = this.state.visibleArticles.filter( (article) => {
-      if (article.source.id !== sourceName) {
-        return article
-      }
+    let active = source.active
+    source.active = active ? false : true
+    // if (active) {
+    //   console.log('removing articles');
+    //   filteredArticles = this.state.visibleArticles.filter( (article) => {
+    //     if (article.source.id !== sourceName) {
+    //       return article
+    //     }
+    //   })
+    // } else {
+    //   console.log('adding articles');
+    //   let addArticles = this.state.articles.filter( (article) => {
+    //     if (article.source.id === sourceName) {
+    //       return article
+    //     }
+    //   })
+    //   console.log(addArticles);
+    //   filteredArticles = this.state.visibleArticles.concat(addArticles);
+    // }
+    let filteredArticles = this.state.articles.filter( (article) => {
+      let articleSource = sources.find( (s) => s.name === article.source.id)
+      return articleSource.active === true
     })
+    console.log(filteredArticles);
     this.setState({
-      visibleArticles: filteredArticles,
-      sources: sources
+      sources: sources,
+      visibleArticles: filteredArticles
     })
   }
 
